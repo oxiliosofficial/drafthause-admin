@@ -1,0 +1,747 @@
+﻿You are an expert senior frontend engineer + product designer.
+Build a complete, production-style Admin Panel WEB APP (frontend-only static demo) in ReactJS.
+________________
+
+
+✅ Styling & Branding Instructions (Light Admin Theme, Draft Hause Branding)
+1) Visual goal
+* Build Admin Panel in LIGHT theme only (no dark mode).
+* The admin must still “feel like Draft Hause” using brand accents, but with:
+   * white/off-white surfaces
+   * clean borders
+   * soft shadows
+   * premium “architectural / interior design” vibe
+* Avoid flashy gradients in admin. Keep it modern and calm.
+2) Brand color palette (derived from your app UI)
+Use these as the only brand colors:
+Primary Brand Gold
+* #DEAC6B (main CTA buttons, highlights, active states, key icons)
+Group 1171275238
+Deep Bronze (support)
+   * #685841 (secondary accents, outlines, subtle headings, premium touches)
+Group 1171275238
+Deep Teal (support / status)
+      * #0F4540 (links, “active/in-progress” states, subtle chips, some charts)
+Group 1171275238
+Neutral System (light admin base)
+         * Background: #F7F7F5
+         * Surface/Card: #FFFFFF
+         * Border: #E7E3DD
+         * Text primary: #1B1B1B
+         * Text secondary: #5B5B5B
+         * Muted/placeholder: #8C8C8C
+Rule: Gold is the “signature”. Teal is “functional”. Bronze is “premium trim”. Neutrals do the heavy lifting.
+________________
+3) Typography
+         * Use a clean UI font (system font or Inter).
+         * Scale:
+         * Page title: 22–26px semibold
+         * Section title: 16–18px semibold
+         * Body: 14–15px regular
+         * Table meta: 12–13px
+Spacing rule: generous whitespace, avoid cramped UI.
+________________
+4) Layout & surfaces
+         * App background: #F7F7F5
+         * Cards:
+         * White background
+         * Border #E7E3DD
+         * 12–16px radius
+         * Soft shadow (very subtle)
+         * Sidebar:
+         * White or slightly tinted (#FFFFFF or #FBFAF8)
+         * Active item indicator uses Gold (#DEAC6B)
+         * Topbar:
+         * White surface with border bottom
+________________
+5) Buttons (very important)
+Define consistent button styles:
+Primary Button
+         * Background: #DEAC6B
+         * Text: near-black #1B1B1B
+         * Hover: slightly darker gold (auto)
+         * Used for: “Create Project”, “Approve”, “Import”, “Save”
+Secondary Button
+         * Background: transparent or white
+         * Border: #DEAC6B
+         * Text: #1B1B1B
+         * Used for: “Compare”, “View”, “Open Viewer”
+Tertiary / Ghost
+         * Background: transparent
+         * Text: #0F4540 (teal)
+         * Used for: inline actions, filters
+Destructive
+         * Background: white
+         * Border: light red
+         * Text: red
+         * Used for: delete, remove, deactivate
+________________
+6) Inputs, dropdowns, search bars
+         * Input background: white
+         * Border: #E7E3DD
+         * Focus ring: #DEAC6B (gold) — subtle
+         * Error state:
+         * border red
+         * helper text red
+________________
+7) Tables (admin-grade)
+Tables must look premium and readable:
+         * Header row: slightly tinted background (#FBFAF8)
+         * Row hover: very subtle tint
+         * Zebra rows optional but subtle
+         * Column actions as kebab menu
+         * Use status badges consistently (see below)
+________________
+8) Badges / Status colors (strict mapping)
+Use consistent badge system:
+         * Draft: neutral gray
+         * In Progress: teal (#0F4540) with light teal background tint
+         * Needs Review: gold (#DEAC6B) with light gold tint
+         * Approved: green (neutral system green)
+         * Archived: muted gray
+         * Open comment: gold tint
+         * Resolved comment: muted gray/green tint
+Badges must be rounded pills, 12–13px text, not loud.
+________________
+9) Icons & imagery
+         * Use outline icons (simple, premium).
+         * Keep 3D viewer controls minimal and professional.
+         * For placeholders (floor plan images, model thumbnails):
+         * Use light neutral frames
+         * Small “Draft Hause” brand mark watermark optional (subtle)
+________________
+10) Motion (micro-interactions)
+         * Keep animations minimal:
+         * hover transitions 150–200ms
+         * modal fade/scale subtle
+         * No bouncy animations.
+________________
+11) Accessibility & contrast
+         * Ensure text contrast is strong on light background.
+         * Gold is used for accents and CTA backgrounds; don’t use gold for long text paragraphs.
+________________
+12) Implementation requirement (so AI actually applies it)
+Force the AI to implement styling via one consistent method:
+         * Either Tailwind theme config OR CSS variables (choose one).
+         * Must include a single source of truth:
+         * theme.ts or styles/tokens.css
+         * All components must use these tokens (no random hex scattered).
+________________
+Quick edits needed in your existing master prompt
+In your “dummy data” section, remove these phrases (since you don’t want timers):
+         * “timer logs”
+         * “TimerSession”
+         * “avg time per project”
+         * “time logs” in reports
+Everything else stays.
+0) Core Rules (STRICT)
+         1. Frontend only. No backend. No real API calls.
+Use static dummy data + simulated async (setTimeout).
+
+         2. Only ONE real role inside admin: Admin.
+Designers and Clients are managed entities — not login roles inside admin.
+
+         3. Include a Public-Facing Client Portal section inside the same React app.
+
+         4. Build using:
+
+            * React + TypeScript
+
+            * React Router
+
+            * React Hook Form + Zod/Yup validation
+
+            * Clean folder architecture
+
+            * Proper component structure
+
+               5. Must be fully interactive:
+
+                  * CRUD updates local state
+
+                  * Confirm delete modals
+
+                  * Search/filter/sort/pagination
+
+                  * Toast notifications
+
+                  * Loading states + skeletons
+
+                  * No TODO placeholders
+
+                     6. Must include realistic dummy data:
+
+                        * 12 Clients
+
+                        * 8–12 Designers
+
+                        * 25 Projects
+
+                        * 2–8 Versions per project
+
+                        * 120+ Comments
+
+                        * Approvals per version
+
+                        * Activity logs
+
+                        * Notifications
+
+                           7. Do NOT implement:
+
+                              * Clock-in/out
+
+                              * Work sessions
+
+                              * Timesheets
+
+                              * Hour tracking
+
+                              * Payroll metrics
+
+                              * Utilization rates
+
+                              * Any HR-style reporting
+
+Keep the system operationally realistic but avoid enterprise employee tracking features.
+________________
+
+
+1) Domain Scope (Do Not Omit)
+This admin supports an iOS LiDAR app that creates:
+                                 * 3D LiDAR scans
+
+                                 * Auto-generated 2D floor plans
+
+                                 * Measurements
+
+                                 * Annotations (walls, doors, windows, furniture)
+
+                                 * Exports (PDF, JPG, DXF, OBJ, STL)
+
+                                 * Version history
+
+                                 * Comments
+
+                                 * Approval workflow
+
+Admin panel must include:
+                                    * Client management
+
+                                    * Designer management
+
+                                    * Project management
+
+                                    * Version comparison
+
+                                    * 3D viewer (read-only)
+
+                                    * Comment system (with optional 3D coordinate pin)
+
+                                    * Approval system
+
+                                    * Analytics
+
+                                    * Reports
+
+                                    * Settings
+
+                                    * Product/FFE library
+
+                                    * AI Room Ideas
+
+                                    * Public portal
+
+Admin CANNOT edit 3D geometry.
+________________
+
+
+2) Designer Management (Updated – No Timers)
+Designers exist as contributors.
+/designers
+Table columns:
+                                       * Name
+
+                                       * Email
+
+                                       * Status
+
+                                       * Projects Assigned
+
+                                       * Versions Created
+
+                                       * Last Activity
+
+                                       * Skills
+
+Actions:
+                                          * View
+
+                                          * Edit
+
+                                          * Deactivate
+
+                                          * Delete
+
+/designers/:id
+Profile includes:
+                                             * Basic info
+
+                                             * Skills/tags
+
+                                             * Assigned projects
+
+                                             * Versions created
+
+                                             * Comments posted
+
+                                             * Approvals received
+
+                                             * Activity feed:
+
+                                                * Created version
+
+                                                * Submitted for approval
+
+                                                * Responded to comment
+
+NO time tracking anywhere.
+________________
+
+
+3) Projects Module (Unchanged but Cleaned)
+/projects
+Table:
+                                                   * Project name
+
+                                                   * Client
+
+                                                   * Primary designer
+
+                                                   * Type (Residential/Commercial)
+
+                                                   * Status
+
+                                                   * Rooms
+
+                                                   * Versions
+
+                                                   * Last updated
+
+Filters:
+                                                      * Client
+
+                                                      * Designer
+
+                                                      * Status
+
+                                                      * Date range
+
+Bulk actions:
+                                                         * Export summary (fake)
+
+                                                         * Change status
+
+________________
+
+
+/projects/:id (Command Center)
+Tabs:
+1) Overview
+                                                            * Metadata
+
+                                                            * Status timeline
+
+                                                            * Primary + Supporting designers
+
+                                                            * Latest version summary
+
+2) Versions
+                                                               * Version number
+
+                                                               * Created by designer
+
+                                                               * Created date
+
+                                                               * Notes
+
+                                                               * Approval state
+
+                                                               * Actions:
+
+                                                                  * Open viewer
+
+                                                                  * Compare
+
+                                                                  * Approve
+
+                                                                  * Request changes
+
+3) Files & Exports
+                                                                     * 2D exports
+
+                                                                     * 3D exports
+
+                                                                     * File size
+
+                                                                     * Date
+
+                                                                     * Generated by
+
+                                                                     * Download (simulated)
+
+4) Comments
+                                                                        * Thread view
+
+                                                                        * Filter open/resolved
+
+                                                                        * Add comment
+
+                                                                        * Optional 3D coordinate (x,y,z)
+
+                                                                        * Resolve comment
+
+5) Activity Log
+                                                                           * Version created
+
+                                                                           * Comment added
+
+                                                                           * Approval changed
+
+                                                                           * Export generated
+
+                                                                           * Client portal activity
+
+________________
+
+
+4) Version Viewer
+Route:
+/projects/:id/versions/:versionId
+Layout:
+Left:
+                                                                              * 3D Viewer tab
+
+                                                                              * 2D Plan tab
+
+Right:
+                                                                                 * Metadata panel
+
+                                                                                 * Measurements summary
+
+                                                                                 * Annotation list
+
+                                                                                 * Approval control
+
+Bottom:
+                                                                                    * Comment thread
+
+Viewer Controls:
+                                                                                       * Orbit
+
+                                                                                       * Zoom
+
+                                                                                       * Pan
+
+                                                                                       * Reset
+
+                                                                                       * Toggle measurements
+
+                                                                                       * Toggle textures
+
+                                                                                       * Section cut toggle
+
+Read-only.
+________________
+
+
+5) Approvals Module
+/approvals
+Queue:
+                                                                                          * Project
+
+                                                                                          * Version
+
+                                                                                          * Client
+
+                                                                                          * Submitted date
+
+                                                                                          * Unresolved comments
+
+                                                                                          * Actions:
+
+                                                                                             * Approve
+
+                                                                                             * Request changes
+
+                                                                                             * Open viewer
+
+Include approval templates.
+________________
+
+
+6) Analytics (Updated – No Time Metrics)
+Dashboard KPIs:
+                                                                                                * Active clients
+
+                                                                                                * Active projects
+
+                                                                                                * Versions awaiting approval
+
+                                                                                                * Open comments
+
+                                                                                                * Recently updated projects
+
+Charts:
+                                                                                                   * Projects by status
+
+                                                                                                   * Versions created per month
+
+                                                                                                   * Approval rate
+
+                                                                                                   * Comments trend
+
+                                                                                                   * Designers by project count
+
+NO time or duration analytics.
+________________
+
+
+7) Reports
+/reports
+Wizard:
+                                                                                                      * Select clients
+
+                                                                                                      * Date range
+
+                                                                                                      * Include:
+
+                                                                                                         * Projects
+
+                                                                                                         * Versions
+
+                                                                                                         * Approvals
+
+                                                                                                         * Comments
+
+                                                                                                         * Exports
+
+                                                                                                            * Output PDF/CSV (fake)
+
+Include download history.
+________________
+
+
+8) Product Library (FFE)
+/products
+Tabs:
+                                                                                                               1. Library
+
+                                                                                                               2. Categories
+
+                                                                                                               3. Import from URL
+
+                                                                                                               4. Moodboards (optional)
+
+Fields:
+                                                                                                                  * Name
+
+                                                                                                                  * Brand
+
+                                                                                                                  * Category
+
+                                                                                                                  * Residential/Commercial
+
+                                                                                                                  * Price range
+
+                                                                                                                  * SKU
+
+                                                                                                                  * Source URL
+
+                                                                                                                  * Image
+
+                                                                                                                  * Tags
+
+                                                                                                                  * Description
+
+                                                                                                                  * Availability
+
+URL Import simulation:
+                                                                                                                     * Enter URL
+
+                                                                                                                     * Show mock scraped cards
+
+                                                                                                                     * Drag/drop reorder
+
+                                                                                                                     * Import selected
+
+________________
+
+
+9) AI Room Ideas
+/ai-ideas
+Two flows:
+Generate from Floor Plan
+                                                                                                                        * Select project
+
+                                                                                                                        * Select version
+
+                                                                                                                        * Room type
+
+                                                                                                                        * Budget
+
+                                                                                                                        * Style
+
+                                                                                                                        * Occupancy
+
+                                                                                                                        * Generate → Show design cards
+
+Generate from Style Inputs
+                                                                                                                           * Preferred style
+
+                                                                                                                           * Color palette
+
+                                                                                                                           * Material preference
+
+                                                                                                                           * Intended use
+
+Save idea set to project.
+________________
+
+
+10) Settings
+/settings
+Sections:
+                                                                                                                              1. General
+
+                                                                                                                              2. Feature toggles
+
+                                                                                                                              3. Notifications
+
+                                                                                                                              4. Storage (UI only)
+
+                                                                                                                              5. Export defaults
+
+Save to localStorage.
+________________
+
+
+11) Public Facing Portal
+Routes:
+                                                                                                                                 * /portal/login
+
+                                                                                                                                 * /portal/:clientId
+
+Client can:
+                                                                                                                                    * View projects
+
+                                                                                                                                    * View versions
+
+                                                                                                                                    * Download exports
+
+                                                                                                                                    * Comment
+
+                                                                                                                                    * Approve / Request changes
+
+Visually distinct from admin theme.
+________________
+
+
+12) Data Models (Updated – No TimerSession)
+Define:
+                                                                                                                                       * AdminUser
+
+                                                                                                                                       * Client
+
+                                                                                                                                       * Designer
+
+                                                                                                                                       * Project
+
+                                                                                                                                       * ProjectLocation
+
+                                                                                                                                       * Version
+
+                                                                                                                                       * ModelAsset
+
+                                                                                                                                       * ExportFile
+
+                                                                                                                                       * Annotation
+
+                                                                                                                                       * Comment
+
+                                                                                                                                       * Approval
+
+                                                                                                                                       * Notification
+
+                                                                                                                                       * ActivityEvent
+
+                                                                                                                                       * ProductItem
+
+                                                                                                                                       * ProductCategory
+
+                                                                                                                                       * AIIdeaSet
+
+                                                                                                                                       * AIResultCard
+
+Remove:
+                                                                                                                                          * TimerSession
+
+________________
+
+
+13) Real-Time Simulation
+Include “Live Mode” toggle:
+Every 10–20 seconds randomly:
+                                                                                                                                             * Add comment
+
+                                                                                                                                             * Change approval state
+
+                                                                                                                                             * Add version
+
+                                                                                                                                             * Add notification
+
+Show notification bell with counter.
+________________
+
+
+14) Admin Permissions Summary
+Admin CAN:
+                                                                                                                                                * View everything
+
+                                                                                                                                                * Approve versions
+
+                                                                                                                                                * Add comments
+
+                                                                                                                                                * Download exports
+
+                                                                                                                                                * Manage clients
+
+                                                                                                                                                * Manage designers
+
+                                                                                                                                                * Manage products
+
+                                                                                                                                                * Manage settings
+
+Admin CANNOT:
+                                                                                                                                                   * Edit 3D geometry
+
+                                                                                                                                                   * Modify scan data
+
+________________
+
+
+15) Deliverables Required
+AI must provide:
+                                                                                                                                                      * Complete React project structure
+
+                                                                                                                                                      * All pages implemented
+
+                                                                                                                                                      * Seed dummy data
+
+                                                                                                                                                      * fakeApi.ts
+
+                                                                                                                                                      * Setup instructions
+
+                                                                                                                                                      * /demo page walkthrough
+
+Do not omit any features.
