@@ -32,9 +32,13 @@ export default function ClientDetail() {
             <div className="grid-3" style={{ gap: 'var(--space-xl)' }}>
                 <div className="card" style={{ gridColumn: 'span 1' }}>
                     <div style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}>
-                        <div className="avatar avatar-teal" style={{ width: 72, height: 72, fontSize: 24, margin: '0 auto var(--space-md)' }}>
-                            {client.name.split(' ').map(n => n[0]).join('')}
-                        </div>
+                        {client.avatar && client.avatar.startsWith('http') ? (
+                            <img src={client.avatar} alt={client.name} className="avatar" style={{ width: 72, height: 72, margin: '0 auto var(--space-md)', objectFit: 'cover' }} />
+                        ) : (
+                            <div className="avatar avatar-teal" style={{ width: 72, height: 72, fontSize: 24, margin: '0 auto var(--space-md)' }}>
+                                {client.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                        )}
                         <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 'var(--font-semibold)' }}>{client.name}</h2>
                         <span className={`badge ${client.status === 'active' ? 'badge-approved' : 'badge-archived'}`} style={{ marginTop: 'var(--space-sm)' }}>
                             {client.status}

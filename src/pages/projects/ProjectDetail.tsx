@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
-import { HiOutlineArrowLeft, HiOutlineEye, HiOutlineScale, HiOutlineCheck, HiOutlineX, HiOutlineDownload } from 'react-icons/hi';
+import {
+    HiOutlineArrowLeft, HiOutlineEye, HiOutlineScale, HiOutlineCheck,
+    HiOutlineX, HiOutlineDownload, HiOutlineLocationMarker,
+    HiOutlineCube, HiOutlineChatAlt2, HiOutlineCheckCircle,
+    HiOutlineDocumentText, HiOutlineClipboardList
+} from 'react-icons/hi';
 import toast from 'react-hot-toast';
 import './ProjectDetail.css';
 
@@ -63,6 +68,17 @@ export default function ProjectDetail() {
     };
 
     const tabs = ['Overview', 'Versions', 'Files & Exports', 'Comments', 'Activity Log'];
+
+    const getActivityIcon = (type: string) => {
+        switch (type) {
+            case 'version-created': return <HiOutlineCube size={16} />;
+            case 'comment-added': return <HiOutlineChatAlt2 size={16} />;
+            case 'approval-changed': return <HiOutlineCheckCircle size={16} />;
+            case 'export-generated': return <HiOutlineDocumentText size={16} />;
+            case 'client-portal-view': return <HiOutlineEye size={16} />;
+            default: return <HiOutlineClipboardList size={16} />;
+        }
+    };
 
     return (
         <div>
@@ -240,8 +256,9 @@ export default function ProjectDetail() {
                                 </div>
                                 <p style={{ fontSize: 'var(--font-size-sm)', lineHeight: 1.6, color: 'var(--text-primary)' }}>{c.content}</p>
                                 {c.coordinate && (
-                                    <div style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-xs) var(--space-sm)', background: 'var(--teal-bg)', borderRadius: 'var(--radius-sm)', display: 'inline-block' }}>
-                                        <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--teal)' }}>📍 3D Pin: ({c.coordinate.x.toFixed(1)}, {c.coordinate.y.toFixed(1)}, {c.coordinate.z.toFixed(1)})</span>
+                                    <div style={{ marginTop: 'var(--space-sm)', padding: 'var(--space-xs) var(--space-sm)', background: 'var(--teal-bg)', borderRadius: 'var(--radius-sm)', display: 'flex', alignItems: 'center', gap: 'var(--space-xs)' }}>
+                                        <HiOutlineLocationMarker size={14} style={{ color: 'var(--teal)' }} />
+                                        <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--teal)' }}>3D Pin: ({c.coordinate.x.toFixed(1)}, {c.coordinate.y.toFixed(1)}, {c.coordinate.z.toFixed(1)})</span>
                                     </div>
                                 )}
                             </div>
@@ -260,7 +277,7 @@ export default function ProjectDetail() {
                             <div key={e.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 'var(--space-md) 0', borderBottom: '1px solid var(--border)' }}>
                                 <div className="flex items-center gap-md">
                                     <span style={{ fontSize: 16 }}>
-                                        {e.type === 'version-created' ? '📐' : e.type === 'comment-added' ? '💬' : e.type === 'approval-changed' ? '✅' : e.type === 'export-generated' ? '📄' : e.type === 'client-portal-view' ? '👁️' : '📋'}
+                                        {getActivityIcon(e.type)}
                                     </span>
                                     <div>
                                         <p style={{ fontSize: 'var(--font-size-sm)' }}>{e.description}</p>

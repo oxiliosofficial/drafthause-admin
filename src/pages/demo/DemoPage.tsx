@@ -1,25 +1,26 @@
 import { useNavigate } from 'react-router-dom';
-import { useStore } from '../../store/useStore';
+import {
+    HiOutlineChartBar, HiOutlineUsers, HiOutlineUserGroup, HiOutlineCollection,
+    HiOutlineCube, HiOutlineCheckCircle, HiOutlineChartPie, HiOutlineShoppingBag,
+    HiOutlineCog, HiOutlineGlobeAlt
+} from 'react-icons/hi';
 
 const FEATURES = [
-    { label: 'Dashboard', path: '/dashboard', desc: 'KPI stat cards, Recharts line/bar/pie charts, activity feed', icon: '📊' },
-    { label: 'Client Management', path: '/clients', desc: 'Full CRUD table with search, filter, pagination, avatar initials', icon: '👥' },
-    { label: 'Designer Management', path: '/designers', desc: 'Team list with skills, deactivate toggle, detail view', icon: '🎨' },
-    { label: 'Project Command Center', path: '/projects', desc: 'Multi-filter table, bulk actions, 5-tab detail (versions, exports, comments, activity)', icon: '📐' },
-    { label: 'Version Viewer', path: '/projects', desc: '3D canvas with Three.js + 2D floor plan toggle, version sidebar', icon: '🏗️' },
-    { label: 'Approvals Queue', path: '/approvals', desc: 'Tabbed queue (pending/approved/rejected), one-click approve/reject', icon: '✅' },
-    { label: 'Analytics', path: '/analytics', desc: 'Area, bar, pie, horizontal bar charts with Recharts', icon: '📈' },
-    { label: 'Reports', path: '/reports', desc: '6 report types, configurable options, format selection, simulated generation', icon: '📑' },
-    { label: 'Product Library', path: '/products', desc: 'Card grid, category tabs, URL import with scraping simulation', icon: '📦' },
-    { label: 'AI Room Ideas', path: '/ai-ideas', desc: 'Two generation modes: curated selectors + prompt-based, gallery view', icon: '💡' },
-    { label: 'Settings', path: '/settings', desc: 'Company info, notifications, export defaults, portal config — localStorage', icon: '⚙️' },
-    { label: 'Client Portal', path: '/portal/login', desc: 'Email login, project sidebar, versions, comments, approvals — teal theme', icon: '🌐' },
+    { label: 'Dashboard', path: '/dashboard', desc: 'KPI stat cards, Recharts line/bar/pie charts, activity feed', icon: HiOutlineChartBar },
+    { label: 'Client Management', path: '/clients', desc: 'Full CRUD table with search, filter, pagination, avatar initials', icon: HiOutlineUsers },
+    { label: 'Designer Management', path: '/designers', desc: 'Team list with skills, status toggle, detail view', icon: HiOutlineUserGroup },
+    { label: 'Project Command Center', path: '/projects', desc: 'Multi-filter table, bulk actions, 5-tab detail (versions, exports, comments, activity)', icon: HiOutlineCollection },
+    { label: 'Version Viewer', path: '/projects', desc: '3D canvas with Three.js + 2D floor plan toggle, version sidebar', icon: HiOutlineCube },
+    { label: 'Approvals Queue', path: '/approvals', desc: 'Tabbed queue (pending/approved/rejected), one-click approve/reject', icon: HiOutlineCheckCircle },
+    { label: 'Analytics', path: '/analytics', desc: 'Area, bar, pie, horizontal bar charts with Recharts', icon: HiOutlineChartPie },
+    // Reports and AI Room Ideas hidden
+    { label: 'Product Library', path: '/products', desc: 'Card grid, category tabs, product management with images', icon: HiOutlineShoppingBag },
+    { label: 'Settings', path: '/settings', desc: 'Company profile configuration', icon: HiOutlineCog },
+    { label: 'Client Portal', path: '/portal/login', desc: 'Email login, project sidebar, versions, comments, approvals — teal theme', icon: HiOutlineGlobeAlt },
 ];
 
 export default function DemoPage() {
     const navigate = useNavigate();
-    const toggleLiveMode = useStore(s => s.toggleLiveMode);
-    const liveModeEnabled = useStore(s => s.liveModeEnabled);
 
     return (
         <div>
@@ -28,9 +29,6 @@ export default function DemoPage() {
                     <h1 className="page-title">Demo Walkthrough</h1>
                     <p className="page-subtitle">Explore all features of the Draft Hause Admin Panel</p>
                 </div>
-                <button className={`btn ${liveModeEnabled ? 'btn-destructive' : 'btn-primary'}`} onClick={toggleLiveMode}>
-                    {liveModeEnabled ? 'Stop Live Mode' : 'Start Live Mode'}
-                </button>
             </div>
 
             <div className="card" style={{ padding: 'var(--space-xl)', marginBottom: 'var(--space-xl)', background: 'linear-gradient(135deg, var(--gold-bg) 0%, var(--teal-bg) 100%)', border: 'none' }}>
@@ -57,7 +55,7 @@ export default function DemoPage() {
                         style={{ padding: 'var(--space-lg)', textAlign: 'left', cursor: 'pointer', transition: 'all var(--transition-fast)', border: '1px solid var(--border)' }}
                     >
                         <div className="flex items-center gap-md" style={{ marginBottom: 'var(--space-sm)' }}>
-                            <span style={{ fontSize: 24 }}>{f.icon}</span>
+                            <f.icon size={24} style={{ color: 'var(--primary)' }} />
                             <h3 style={{ fontWeight: 600, fontSize: 'var(--font-size-base)' }}>{f.label}</h3>
                         </div>
                         <p style={{ fontSize: 'var(--font-size-sm)', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{f.desc}</p>

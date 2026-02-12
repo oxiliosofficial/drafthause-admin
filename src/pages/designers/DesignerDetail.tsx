@@ -33,9 +33,13 @@ export default function DesignerDetail() {
             <div className="grid-3" style={{ gap: 'var(--space-xl)' }}>
                 <div className="card">
                     <div style={{ textAlign: 'center', marginBottom: 'var(--space-xl)' }}>
-                        <div className="avatar avatar-bronze" style={{ width: 72, height: 72, fontSize: 24, margin: '0 auto var(--space-md)' }}>
-                            {designer.name.split(' ').map(n => n[0]).join('')}
-                        </div>
+                        {designer.avatar && designer.avatar.startsWith('http') ? (
+                            <img src={designer.avatar} alt={designer.name} className="avatar" style={{ width: 72, height: 72, margin: '0 auto var(--space-md)', objectFit: 'cover' }} />
+                        ) : (
+                            <div className="avatar avatar-bronze" style={{ width: 72, height: 72, fontSize: 24, margin: '0 auto var(--space-md)' }}>
+                                {designer.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                        )}
                         <h2 style={{ fontSize: 'var(--font-size-xl)', fontWeight: 600 }}>{designer.name}</h2>
                         <span className={`badge ${designer.status === 'active' ? 'badge-approved' : 'badge-archived'}`}>{designer.status}</span>
                         {designer.bio && <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-md)', lineHeight: 1.5 }}>{designer.bio}</p>}

@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
 import { useStore } from '../store/useStore';
-import { HiOutlineBell, HiOutlineSearch } from 'react-icons/hi';
+import { HiOutlineBell, HiOutlineLogout } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 import './Topbar.css';
 
 export function Topbar() {
     const notifications = useStore((s) => s.notifications);
     const markNotificationRead = useStore((s) => s.markNotificationRead);
     const markAllNotificationsRead = useStore((s) => s.markAllNotificationsRead);
-    const liveModeEnabled = useStore((s) => s.liveModeEnabled);
-    const toggleLiveMode = useStore((s) => s.toggleLiveMode);
+    const navigate = useNavigate();
 
     const [showNotifications, setShowNotifications] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -25,6 +25,11 @@ export function Topbar() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem('dh-auth');
+        navigate('/login');
+    };
+
     const formatTime = (dateStr: string) => {
         const date = new Date(dateStr);
         const now = new Date();
@@ -39,22 +44,11 @@ export function Topbar() {
     return (
         <header className="topbar">
             <div className="topbar-left">
-                <div className="topbar-search">
-                    <HiOutlineSearch size={18} />
-                    <input type="text" placeholder="Search projects, clients, designers..." className="topbar-search-input" />
-                </div>
+                {/* Search removed as per request */}
             </div>
 
             <div className="topbar-right">
-                <div className="topbar-live-mode">
-                    <span className="topbar-live-label">Live Mode</span>
-                    <button
-                        className={`toggle-switch ${liveModeEnabled ? 'active' : ''}`}
-                        onClick={toggleLiveMode}
-                        title={liveModeEnabled ? 'Disable live mode' : 'Enable live mode'}
-                    />
-                    {liveModeEnabled && <span className="topbar-live-dot" />}
-                </div>
+                {/* Live Mode removed as per request */}
 
                 <div className="topbar-notifications" ref={dropdownRef}>
                     <button
@@ -103,12 +97,13 @@ export function Topbar() {
                     )}
                 </div>
 
-                <div className="topbar-user">
+                <div className="topbar-user group relative cursor-pointer" onClick={handleLogout} title="Click to Logout">
                     <div className="avatar avatar-gold">A</div>
                     <div className="topbar-user-info">
                         <span className="topbar-user-name">Admin</span>
                         <span className="topbar-user-role">Administrator</span>
                     </div>
+                    <HiOutlineLogout className="ml-2 text-gray-400 group-hover:text-red-600 transition-colors" size={20} />
                 </div>
             </div>
         </header>

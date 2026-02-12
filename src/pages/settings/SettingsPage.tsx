@@ -23,16 +23,7 @@ export default function SettingsPage() {
                             <input className="input" value={settings.companyName} onChange={e => updateSettings({ companyName: e.target.value })} />
                         </div>
                         <div className="grid-2" style={{ gap: 'var(--space-md)' }}>
-                            <div className="input-group">
-                                <label>Default Currency</label>
-                                <select className="select" value={settings.defaultCurrency} onChange={e => updateSettings({ defaultCurrency: e.target.value })}>
-                                    <option value="USD">USD ($)</option>
-                                    <option value="EUR">EUR (€)</option>
-                                    <option value="GBP">GBP (£)</option>
-                                    <option value="CAD">CAD (C$)</option>
-                                    <option value="AUD">AUD (A$)</option>
-                                </select>
-                            </div>
+
                             <div className="input-group">
                                 <label>Measurement Unit</label>
                                 <select className="select" value={settings.measurementUnit} onChange={e => updateSettings({ measurementUnit: e.target.value as 'metric' | 'imperial' })}>
@@ -44,6 +35,7 @@ export default function SettingsPage() {
                     </div>
                 </div>
 
+                {/* 
                 <div className="card" style={{ marginBottom: 'var(--space-lg)' }}>
                     <h3 className="section-title">Appearance</h3>
                     <div className="flex flex-col gap-lg">
@@ -142,6 +134,7 @@ export default function SettingsPage() {
                         </div>
                     </div>
                 </div>
+                */}
 
                 <button className="btn btn-primary" onClick={() => toast.success('Settings saved successfully')}>
                     Save Settings

@@ -1,6 +1,10 @@
 import { useStore } from '../../store/useStore';
 import { useNavigate } from 'react-router-dom';
-import { HiOutlineUsers, HiOutlineCollection, HiOutlineShieldCheck, HiOutlineChatAlt2, HiOutlineArrowRight } from 'react-icons/hi';
+import {
+    HiOutlineUsers, HiOutlineCollection, HiOutlineShieldCheck, HiOutlineChatAlt2,
+    HiOutlineArrowRight, HiOutlineCube, HiOutlineCheckCircle, HiOutlineDocumentText,
+    HiOutlineEye, HiOutlineRefresh, HiOutlineUserGroup, HiOutlineClipboardList, HiOutlinePlus
+} from 'react-icons/hi';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 import './Dashboard.css';
 
@@ -57,12 +61,17 @@ export default function Dashboard() {
     };
 
     const getActivityIcon = (type: string) => {
-        const icons: Record<string, string> = {
-            'version-created': '📐', 'comment-added': '💬', 'approval-changed': '✅',
-            'export-generated': '📄', 'project-created': '🏗️', 'client-portal-view': '👁️',
-            'designer-assigned': '🎨', 'status-changed': '🔄',
-        };
-        return icons[type] || '📋';
+        switch (type) {
+            case 'version-created': return <HiOutlineCube size={18} />;
+            case 'comment-added': return <HiOutlineChatAlt2 size={18} />;
+            case 'approval-changed': return <HiOutlineCheckCircle size={18} />;
+            case 'export-generated': return <HiOutlineDocumentText size={18} />;
+            case 'project-created': return <HiOutlinePlus size={18} />;
+            case 'client-portal-view': return <HiOutlineEye size={18} />;
+            case 'designer-assigned': return <HiOutlineUserGroup size={18} />;
+            case 'status-changed': return <HiOutlineRefresh size={18} />;
+            default: return <HiOutlineClipboardList size={18} />;
+        }
     };
 
     return (
@@ -110,7 +119,7 @@ export default function Dashboard() {
                     <h3 className="section-title">Projects by Status</h3>
                     <ResponsiveContainer width="100%" height={240}>
                         <PieChart>
-                            <Pie data={statusData} cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={3} dataKey="value">
+                            <Pie data={statusData} cx="50%" cy="50%" innerRadius={70} outerRadius={110} paddingAngle={3} dataKey="value">
                                 {statusData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
                                 ))}
@@ -138,19 +147,6 @@ export default function Dashboard() {
                             <Tooltip />
                             <Bar dataKey="versions" fill="#DEAC6B" radius={[4, 4, 0, 0]} />
                         </BarChart>
-                    </ResponsiveContainer>
-                </div>
-
-                <div className="card dashboard-chart-card">
-                    <h3 className="section-title">Approval Rate</h3>
-                    <ResponsiveContainer width="100%" height={280}>
-                        <LineChart data={approvalTrend}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#E7E3DD" />
-                            <XAxis dataKey="month" stroke="#8C8C8C" fontSize={12} />
-                            <YAxis stroke="#8C8C8C" fontSize={12} domain={[0, 100]} />
-                            <Tooltip formatter={(value: number) => [`${value}%`, 'Approval Rate']} />
-                            <Line type="monotone" dataKey="rate" stroke="#0F4540" strokeWidth={2} dot={{ r: 4, fill: '#0F4540' }} />
-                        </LineChart>
                     </ResponsiveContainer>
                 </div>
             </div>

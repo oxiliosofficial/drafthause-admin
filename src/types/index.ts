@@ -29,7 +29,7 @@ export interface Designer {
     name: string;
     email: string;
     phone: string;
-    status: 'active' | 'inactive';
+    status: 'active' | 'inactive' | 'pending';
     skills: string[];
     projectsAssigned: number;
     versionsCreated: number;
@@ -187,7 +187,6 @@ export interface ProductItem {
     name: string;
     brand: string;
     sku: string;
-    price: number;
     category: string;
     supplier: string;
     leadTime: string;
@@ -217,7 +216,6 @@ export interface AIIdeaSet {
 
 export interface Settings {
     companyName: string;
-    defaultCurrency: string;
     measurementUnit: 'metric' | 'imperial';
     theme: 'light' | 'dark';
     language: string;

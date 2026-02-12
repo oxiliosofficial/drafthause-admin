@@ -18,15 +18,17 @@ import SettingsPage from './pages/settings/SettingsPage';
 import PortalLogin from './pages/portal/PortalLogin';
 import PortalDashboard from './pages/portal/PortalDashboard';
 import DemoPage from './pages/demo/DemoPage';
-import { useLiveMode } from './hooks/useLiveMode';
+import Login from './auth/Login';
+import RequireAuth from './auth/RequireAuth';
 
 export default function App() {
-    useLiveMode();
-
     return (
         <Routes>
-            {/* Admin Routes */}
-            <Route element={<AdminLayout />}>
+            {/* Auth Route */}
+            <Route path="/login" element={<Login />} />
+
+            {/* Admin Routes - Protected */}
+            <Route element={<RequireAuth><AdminLayout /></RequireAuth>}>
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/clients" element={<ClientList />} />

@@ -1,22 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
-import { HiOutlineSearch, HiOutlinePlus, HiOutlineDotsVertical, HiOutlineTrash, HiOutlinePencil, HiOutlineEye } from 'react-icons/hi';
+import { HiOutlineSearch, HiOutlineDotsVertical, HiOutlineBan, HiOutlinePencil, HiOutlineEye, HiOutlineCheckCircle } from 'react-icons/hi';
 import toast from 'react-hot-toast';
 
 export default function ClientList() {
     const clients = useStore(s => s.clients);
-    const deleteClient = useStore(s => s.deleteClient);
-    const addClient = useStore(s => s.addClient);
+    const updateClient = useStore(s => s.updateClient);
     const navigate = useNavigate();
 
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState<string>('all');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showAddModal, setShowAddModal] = useState(false);
-    const [deleteId, setDeleteId] = useState<string | null>(null);
     const [openMenu, setOpenMenu] = useState<string | null>(null);
-    const [newClient, setNewClient] = useState({ name: '', email: '', phone: '', company: '' });
     const perPage = 10;
 
     const filtered = clients.filter(c => {
@@ -28,23 +24,11 @@ export default function ClientList() {
     const totalPages = Math.ceil(filtered.length / perPage);
     const paged = filtered.slice((currentPage - 1) * perPage, currentPage * perPage);
 
-    const handleAdd = () => {
-        if (!newClient.name || !newClient.email) { toast.error('Name and email are required'); return; }
-        addClient({
-            id: `c-${Date.now()}`, ...newClient, status: 'active', projectCount: 0,
-            createdAt: new Date().toISOString().split('T')[0], lastActivity: new Date().toISOString().split('T')[0],
-        });
-        setShowAddModal(false);
-        setNewClient({ name: '', email: '', phone: '', company: '' });
-        toast.success('Client created successfully');
-    };
-
-    const handleDelete = () => {
-        if (deleteId) {
-            deleteClient(deleteId);
-            setDeleteId(null);
-            toast.success('Client deleted');
-        }
+    const handleToggleStatus = (id: string, currentStatus: 'active' | 'inactive') => {
+        const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+        updateClient(id, { status: newStatus });
+        toast.success(`Client ${newStatus === 'active' ? 'activated' : 'suspended'}`);
+        setOpenMenu(null);
     };
 
     return (
@@ -54,9 +38,6 @@ export default function ClientList() {
                     <h1 className="page-title">Clients</h1>
                     <p className="page-subtitle">{clients.length} total clients</p>
                 </div>
-                <button className="btn btn-primary" onClick={() => setShowAddModal(true)}>
-                    <HiOutlinePlus size={18} /> Add Client
-                </button>
             </div>
 
             <div className="filter-bar">
@@ -89,7 +70,11 @@ export default function ClientList() {
                             <tr key={client.id}>
                                 <td>
                                     <div className="flex items-center gap-md">
-                                        <div className="avatar avatar-teal">{client.name.split(' ').map(n => n[0]).join('')}</div>
+                                        {client.avatar && client.avatar.startsWith('http') ? (
+                                            <img src={client.avatar} alt={client.name} className="avatar" style={{ objectFit: 'cover' }} />
+                                        ) : (
+                                            <div className="avatar avatar-teal">{client.name.split(' ').map(n => n[0]).join('')}</div>
+                                        )}
                                         <span style={{ fontWeight: 500 }}>{client.name}</span>
                                     </div>
                                 </td>
@@ -108,12 +93,10 @@ export default function ClientList() {
                                                 <button className="dropdown-item" onClick={() => { navigate(`/clients/${client.id}`); setOpenMenu(null); }}>
                                                     <HiOutlineEye size={16} /> View
                                                 </button>
-                                                <button className="dropdown-item" onClick={() => { navigate(`/clients/${client.id}`); setOpenMenu(null); }}>
-                                                    <HiOutlinePencil size={16} /> Edit
-                                                </button>
+
                                                 <div className="dropdown-divider" />
-                                                <button className="dropdown-item destructive" onClick={() => { setDeleteId(client.id); setOpenMenu(null); }}>
-                                                    <HiOutlineTrash size={16} /> Delete
+                                                <button className="dropdown-item" onClick={() => handleToggleStatus(client.id, client.status)}>
+                                                    {client.status === 'active' ? <><HiOutlineBan size={16} /> Suspend Account</> : <><HiOutlineCheckCircle size={16} /> Activate Account</>}
                                                 </button>
                                             </div>
                                         )}
@@ -135,61 +118,6 @@ export default function ClientList() {
                     </div>
                 </div>
             </div>
-
-            {/* Add Modal */}
-            {showAddModal && (
-                <div className="modal-overlay" onClick={() => setShowAddModal(false)}>
-                    <div className="modal" onClick={e => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h2>Add New Client</h2>
-                            <button className="btn-icon" onClick={() => setShowAddModal(false)}>✕</button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="flex flex-col gap-lg">
-                                <div className="input-group">
-                                    <label>Full Name *</label>
-                                    <input className="input" value={newClient.name} onChange={e => setNewClient({ ...newClient, name: e.target.value })} placeholder="John Smith" />
-                                </div>
-                                <div className="input-group">
-                                    <label>Email *</label>
-                                    <input className="input" type="email" value={newClient.email} onChange={e => setNewClient({ ...newClient, email: e.target.value })} placeholder="john@example.com" />
-                                </div>
-                                <div className="input-group">
-                                    <label>Phone</label>
-                                    <input className="input" value={newClient.phone} onChange={e => setNewClient({ ...newClient, phone: e.target.value })} placeholder="+1-555-0000" />
-                                </div>
-                                <div className="input-group">
-                                    <label>Company</label>
-                                    <input className="input" value={newClient.company} onChange={e => setNewClient({ ...newClient, company: e.target.value })} placeholder="Company Name" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button className="btn btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-                            <button className="btn btn-primary" onClick={handleAdd}>Create Client</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Delete Confirmation */}
-            {deleteId && (
-                <div className="modal-overlay" onClick={() => setDeleteId(null)}>
-                    <div className="modal" onClick={e => e.stopPropagation()} style={{ maxWidth: 420 }}>
-                        <div className="modal-header">
-                            <h2>Delete Client</h2>
-                            <button className="btn-icon" onClick={() => setDeleteId(null)}>✕</button>
-                        </div>
-                        <div className="modal-body">
-                            <p>Are you sure you want to delete this client? This action cannot be undone.</p>
-                        </div>
-                        <div className="modal-footer">
-                            <button className="btn btn-secondary" onClick={() => setDeleteId(null)}>Cancel</button>
-                            <button className="btn btn-destructive" onClick={handleDelete}>Delete</button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
